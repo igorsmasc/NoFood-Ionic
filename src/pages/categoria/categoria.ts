@@ -19,4 +19,8 @@ export class CategoriaPage {
     this.navCtrl.setRoot('TabsPage');
   }
 
+  gerenciarCategoria(): void {
+    this.navCtrl.push('AdmCategoriasPage');
+  }
+
 }
