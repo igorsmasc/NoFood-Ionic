@@ -1,10 +1,10 @@
+import { UsuarioProvider } from './../usuario/usuario';
 import { SpinnerProvider } from './../spinner/spinner';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AlertProvider } from '../alert/alert';
 import { HttpResultModel } from '../../app/models/HttpResultModel';
 import { NetworkProvider } from '../network/network';
-import { UsuarioProvider } from '../usuario/usuario';
 
 @Injectable()
 export class HttpProvider {
@@ -22,7 +22,6 @@ export class HttpProvider {
     if (!header) {
       header = new HttpHeaders();
     }
-
     header = header.append('Content-Type', 'application/json');
     header = header.append('Accept', 'application/json');
 
@@ -30,16 +29,16 @@ export class HttpProvider {
     if (token) {
       header = header.append('x-access-token', token);
     }
-
     return header;
   }
 
   public get(url: string): Promise<HttpResultModel> {
     this.spinnerSrv.Show("Carregando os dados...");
     let header = this.createHeader();
+
     return new Promise((resolve) => {
       if (this.networkSrv.IsOnline) {
-        this.http.get(url, {headers: header})
+        this.http.get(url, { headers: header })
           .subscribe(_res => {
             this.spinnerSrv.Hide();
             resolve({ success: true, data: _res, err: undefined });
@@ -58,9 +57,10 @@ export class HttpProvider {
 
   public post(url: string, model: any): Promise<HttpResultModel> {
     this.spinnerSrv.Show("Salvando informações...");
+    let header = this.createHeader();
     return new Promise((resolve) => {
       if (this.networkSrv.IsOnline) {
-        this.http.post(url, model)
+        this.http.post(url, model, { headers: header })
           .subscribe(_res => {
             this.spinnerSrv.Hide();
             resolve({ success: true, data: _res, err: undefined });
@@ -91,9 +91,10 @@ export class HttpProvider {
 
   public put(url: string, model: any): Promise<HttpResultModel> {
     this.spinnerSrv.Show("Atualizando informações...");
+    let header = this.createHeader();
     return new Promise((resolve) => {
       if (this.networkSrv.IsOnline) {
-        this.http.put(url, model)
+        this.http.put(url, model, { headers: header })
           .subscribe(_res => {
             this.spinnerSrv.Hide();
             resolve({ success: true, data: _res, err: undefined });
