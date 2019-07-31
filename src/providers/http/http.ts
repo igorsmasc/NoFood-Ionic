@@ -125,9 +125,10 @@ export class HttpProvider {
 
   public delete(url: string): Promise<HttpResultModel> {
     this.spinnerSrv.Show("Removendo registro...");
+    let header = this.createHeader();
     return new Promise((resolve) => {
       if (this.networkSrv.IsOnline) {
-        this.http.delete(url).subscribe(_res => {
+        this.http.delete(url, { headers: header }).subscribe(_res => {
           this.spinnerSrv.Hide();
           resolve({ success: true, data: _res, err: undefined });
         }, err => {

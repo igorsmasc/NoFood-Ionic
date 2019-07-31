@@ -1,4 +1,3 @@
-import { HttpResultModel } from './../../app/models/HttpResultModel';
 import { AlertProvider } from './../../providers/alert/alert';
 import { CategoriaProvider } from './../../providers/categoria/categoria';
 import { Component } from '@angular/core';
@@ -30,6 +29,20 @@ export class AdmCategoriaPage {
     else
       this.categoria = new CategoriaModel();
 
+  }
+
+  async excluir(): Promise<void> {
+    try {
+      this.alertSrv.confirm('Excluir', `Deseja realmente excluir a categoria ${this.categoria.titulo}`, async () => {
+        let excluirResult = await this.categoriaSrv.delete(this.categoria._id);
+        if (excluirResult.success) {
+          this.alertSrv.toast('Categoria excluída com sucesso!', 'bottom');
+          this.navCtrl.setRoot('AdmCategoriasPage');
+        }
+      });
+    } catch (error) {
+      console.log('Erro ao excluir', error)
+    }
   }
 
   async salvar(): Promise<void> {
