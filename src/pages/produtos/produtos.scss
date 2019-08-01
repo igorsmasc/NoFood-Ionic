@@ -48,6 +48,8 @@ page-produtos {
     border: 1px solid #e2dddd;
     box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.2);
     padding: 10px;
+    overflow: auto;
+
     > div.imagem {
       float: left;
       border: 1px solid #e2dddd;
@@ -55,6 +57,9 @@ page-produtos {
       height: 90px;
       margin-right: 10px;
       border-radius: 10px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
     }
     > div.titulo {
       color: red;
@@ -72,6 +77,8 @@ page-produtos {
       }
     }
     > div.quantidade {
+      overflow: auto;
+
     }
   }
 }
