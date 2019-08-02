@@ -1,11 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
-/**
- * Generated class for the QuantidadeComponent component.
- *
- * See https://angular.io/api/core/Component for more info on Angular
- * Components.
- */
 @Component({
   selector: 'quantidade',
   templateUrl: 'quantidade.html'
@@ -13,6 +7,7 @@ import { Component } from '@angular/core';
 export class QuantidadeComponent {
 
   numero: number = 1;
+  @Output() quantidadeAlterada = new EventEmitter();
 
   constructor() {
 
@@ -20,6 +15,7 @@ export class QuantidadeComponent {
 
   adicionar() {
     this.numero += 1;
+    this.quantidadeAlterada.emit(this.numero);
   }
 
   remover() {
@@ -27,8 +23,7 @@ export class QuantidadeComponent {
     if (_valorFinal <= 0)
       this.numero = 1;
 
-
-
+    this.quantidadeAlterada.emit(this.numero);
   }
 
 }
