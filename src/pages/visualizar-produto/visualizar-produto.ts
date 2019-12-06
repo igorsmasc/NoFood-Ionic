@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ProdutoModel } from '../../app/models/produtoModel';
+import { AlertProvider } from '../../providers/alert/alert';
 
 /**
  * Generated class for the VisualizarProdutoPage page.
@@ -21,7 +22,8 @@ export class VisualizarProdutoPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public ViewCrtl: ViewController) {
+    public ViewCrtl: ViewController,
+    private alertSrv: AlertProvider) {
     }
 
   ionViewDidLoad() {
@@ -35,6 +37,7 @@ export class VisualizarProdutoPage {
   }
 
   adicionarNoCarrinho() {
+    this.alertSrv.toast('Produto adicionado ao carrinho com sucesso!', 'bottom');
     this.ViewCrtl.dismiss();
   }
 
