@@ -3,6 +3,7 @@ export class ProdutoModel {
     nome: string;
     descricao: string;
     preco: number;
+    quantidade: number;
     foto: string;
     categoriaId: any;
 }
