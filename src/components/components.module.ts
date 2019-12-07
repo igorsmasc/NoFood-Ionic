@@ -1,6 +1,6 @@
+import { IonicModule } from 'ionic-angular';
 import { NgModule } from '@angular/core';
 import { QuantidadeComponent } from './quantidade/quantidade';
-import { IonicModule } from 'ionic-angular';
 import { TabComponent } from './tab/tab';
 @NgModule({
 	declarations: [QuantidadeComponent,
@@ -9,4 +9,4 @@ import { TabComponent } from './tab/tab';
 	exports: [QuantidadeComponent,
     TabComponent]
 })
-export class ComponentsModule {}
+export class ComponentsModule { }

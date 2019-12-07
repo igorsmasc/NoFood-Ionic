@@ -1,16 +1,13 @@
+import { ConfigHelper } from './../../app/helpers/configHelper';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { CategoriaModel } from '../../app/models/categoriaModel';
-import { ConfigHelper } from '../../app/helpers/configHelper';
 import { ProdutoProvider } from '../../providers/produto/produto';
 import { ProdutoModel } from '../../app/models/produtoModel';
-
-/**
- * Generated class for the ProdutosPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { CarrinhoProvider } from '../../providers/carrinho/carrinho';
+import { CarrinhoModel } from '../../app/models/carrinhoModel';
+import { AcaoCarrinhoEnum } from '../../app/enums/AcaoCarrinhoEnum';
+import { AlertProvider } from '../../providers/alert/alert';
 
 @IonicPage()
 @Component({
@@ -21,15 +18,22 @@ export class ProdutosPage {
 
   categoriaSelecionada: CategoriaModel = new CategoriaModel();
   produtos: Array<ProdutoModel> = new Array<ProdutoModel>();
-
+  carrinho: CarrinhoModel = new CarrinhoModel();
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private produtoSrv: ProdutoProvider,
-    public ModalCtrl: ModalController) {
+    private carrinhoSrv: CarrinhoProvider,
+    public ModalCtrl: ModalController,
+    private alertSrv: AlertProvider) {
   }
 
   ionViewWillEnter() {
+    this.carrinhoSrv.getCarrinho().subscribe(data => {
+      this.carrinho = data;
+      console.log('obs');
+    });
+
     this.categoriaSelecionada = <CategoriaModel>JSON.parse(localStorage.getItem(ConfigHelper.storageKeys.selectCategory));
     this.load();
   }
@@ -37,21 +41,40 @@ export class ProdutosPage {
   async load(): Promise<void> {
     try {
       let produtosResult = await this.produtoSrv.produtosByCategoriaId(this.categoriaSelecionada._id);
-      if(produtosResult.success) {
-        this.produtos = <Array<ProdutoModel>> produtosResult.data;
-      }
+      if (produtosResult.success)
+        this.produtos = <Array<ProdutoModel>>produtosResult.data;
+      console.log(produtosResult)
     } catch (error) {
-      console.log('Problema ao carregar os produtos', error)
+      console.log('problema ao carregar os produtos', error);
     }
   }
 
-  quantidadeAlterada(produto: ProdutoModel, evt: number): void {
-    console.log(`${produto.nome} - quantidade ${evt}`)
+  quantidadeAlterada(produto: ProdutoModel, evt: any): void {
+    if (evt.acao == AcaoCarrinhoEnum.Adicionar){
+    if(produto.quantidade > 0) {
+      produto.quantidade = produto.quantidade - 1;
+      this.carrinhoSrv.adicionarNovoItem(produto);
+      this.produtoSrv.put(produto._id, produto);
+    } else {
+      this.alertSrv.toast('Não temos o item em estoque no momento!', 'bottom');
+    }
+
+  }
+    else {
+      this.carrinhoSrv.removerItem(produto);
+      produto.quantidade = produto.quantidade + 1;
+      this.produtoSrv.put(produto._id, produto);
+    }
+
   }
 
   visualizarProduto(item: ProdutoModel) {
-    let modal = this.ModalCtrl.create('VisualizarProdutoPage', {produto: item});
+    let modal = this.ModalCtrl.create('VisualizarProdutoPage', { prod: item });
     modal.present();
+  }
+
+  visualizarCarrinho(): void {
+    this.navCtrl.push('CarrinhoPage', {});
   }
 
 }

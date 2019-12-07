@@ -1,14 +1,8 @@
+import { CarrinhoProvider } from './../../providers/carrinho/carrinho';
+import { AlertProvider } from './../../providers/alert/alert';
+import { ProdutoModel } from './../../app/models/produtoModel';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { ProdutoModel } from '../../app/models/produtoModel';
-import { AlertProvider } from '../../providers/alert/alert';
-
-/**
- * Generated class for the VisualizarProdutoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -22,23 +16,24 @@ export class VisualizarProdutoPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public ViewCrtl: ViewController,
-    private alertSrv: AlertProvider) {
-    }
-
-  ionViewDidLoad() {
-
-    this.produto = <ProdutoModel> this.navParams.get('produto')
+    public ViewCtrl: ViewController,
+    private alertSrv: AlertProvider,
+    private carrinhoSrv: CarrinhoProvider) {
 
   }
 
+  ionViewDidLoad() {
+    this.produto = <ProdutoModel>this.navParams.get('prod');
+  }
+
   voltar() {
-    this.ViewCrtl.dismiss();
+    this.ViewCtrl.dismiss();
   }
 
   adicionarNoCarrinho() {
     this.alertSrv.toast('Produto adicionado ao carrinho com sucesso!', 'bottom');
-    this.ViewCrtl.dismiss();
+    this.carrinhoSrv.adicionarNovoItem(this.produto);
+    this.ViewCtrl.dismiss();
   }
 
 }

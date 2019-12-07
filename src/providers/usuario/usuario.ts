@@ -6,7 +6,7 @@ import { ConfigHelper } from '../../app/helpers/configHelper';
 import { HttpResultModel } from '../../app/models/HttpResultModel';
 
 @Injectable()
-export class UsuarioProvider extends ProviderBase<UsuarioModel> {
+export class UsuarioProvider extends ProviderBase<UsuarioModel>{
 
   url: string = `${ConfigHelper.Url}usuario`;
 
@@ -14,7 +14,7 @@ export class UsuarioProvider extends ProviderBase<UsuarioModel> {
     super(`${ConfigHelper.Url}usuario`, http);
   }
 
-  async authenticate(email: string, senha: string): Promise<HttpResultModel> {
+  async autenticate(email: string, senha: string): Promise<HttpResultModel> {
     return this.http.post(`${this.url}/autenticar`, { email: email, senha: senha });
   }
 
@@ -32,7 +32,10 @@ export class UsuarioProvider extends ProviderBase<UsuarioModel> {
   }
 
   static get IsLogado(): boolean {
-    return ((localStorage.getItem(ConfigHelper.storageKeys.token)) != undefined);
+    return (localStorage.getItem(ConfigHelper.storageKeys.token) != undefined);
   }
 
 }
+
+
+

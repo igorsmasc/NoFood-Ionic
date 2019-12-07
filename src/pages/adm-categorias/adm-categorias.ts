@@ -15,11 +15,10 @@ export class AdmCategoriasPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private categoriaSrv: CategoriaProvider
-  ) {
+    private categoriaSrv: CategoriaProvider) {
 
     this._loadData();
-    
+
   }
 
   private async _loadData(): Promise<void> {
@@ -30,6 +29,7 @@ export class AdmCategoriasPage {
   }
 
   addOrEdit(model?: CategoriaModel): void {
-    this.navCtrl.push('AdmCategoriaPage', {_categoria: model});
+    this.navCtrl.push('AdmCategoriaPage', { _categoria: model });
   }
+
 }

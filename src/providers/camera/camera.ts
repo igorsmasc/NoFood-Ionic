@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Camera, CameraOptions } from '@ionic-native/camera/'
+import { Camera, CameraOptions } from '@ionic-native/camera'
 import { Platform } from 'ionic-angular';
 
 @Injectable()
@@ -54,5 +54,7 @@ export class CameraProvider {
         callback(photo)
       });
   }
+
+
 
 }

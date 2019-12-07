@@ -9,5 +9,9 @@ export class ConfigHelper {
         selectCategory: 'nofood.select.category'
     }
 
+    public static Events = {
+        atualizaoQuantidadeProduto: 'atualizacao.quantidade.produto'
+    }
+
 
 }

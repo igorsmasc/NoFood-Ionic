@@ -4,7 +4,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Camera } from '@ionic-native/camera';
-import { Network } from '@ionic-native/network/ngx';
 
 import { MyApp } from './app.component';
 import { SpinnerProvider } from '../providers/spinner/spinner';
@@ -12,11 +11,11 @@ import { AlertProvider } from '../providers/alert/alert';
 import { HttpProvider } from '../providers/http/http';
 import { NetworkProvider } from '../providers/network/network';
 import { UsuarioProvider } from '../providers/usuario/usuario';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '../../node_modules/@angular/common/http';
 import { CategoriaProvider } from '../providers/categoria/categoria';
 import { CameraProvider } from '../providers/camera/camera';
 import { ProdutoProvider } from '../providers/produto/produto';
-
+import { CarrinhoProvider } from '../providers/carrinho/carrinho';
 
 @NgModule({
   declarations: [
@@ -34,7 +33,7 @@ import { ProdutoProvider } from '../providers/produto/produto';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     SpinnerProvider,
     AlertProvider,
     HttpProvider,
@@ -42,9 +41,9 @@ import { ProdutoProvider } from '../providers/produto/produto';
     UsuarioProvider,
     CategoriaProvider,
     CameraProvider,
-    Camera, 
-    Network,
-    ProdutoProvider
+    Camera,
+    ProdutoProvider,
+    CarrinhoProvider
   ]
 })
-export class AppModule {}
+export class AppModule { }

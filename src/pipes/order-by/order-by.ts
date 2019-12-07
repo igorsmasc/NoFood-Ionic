@@ -11,12 +11,10 @@ export class OrderByPipe implements PipeTransform {
 
     if (args.indexOf('-') > -1) {
       _ret = (<Array<any>>UtilsHelper.data.sorting(value, _args)).reverse();
-
     } else {
-      _ret = <Array<any>>UtilsHelper.data.sorting(value, _args);
+      _ret = <Array<any>>UtilsHelper.data.sorting(value, args);
     }
 
     return _ret;
-
   }
 }

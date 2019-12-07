@@ -1,6 +1,6 @@
+import { CategoriaProvider } from './../../providers/categoria/categoria';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
-import { CategoriaProvider } from '../../providers/categoria/categoria';
+import { IonicPage, NavController, NavParams, ActionSheetController, Events } from 'ionic-angular';
 import { CategoriaModel } from '../../app/models/categoriaModel';
 import { ConfigHelper } from '../../app/helpers/configHelper';
 
@@ -17,8 +17,8 @@ export class CategoriaPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private categoriaSrv: CategoriaProvider,
-    public actionSheetCtrl: ActionSheetController
-  ) {
+    public actionSheetCtrl: ActionSheetController,
+    public evt: Events) {
   }
 
   ionViewWillEnter() {
@@ -28,12 +28,11 @@ export class CategoriaPage {
   async load(): Promise<void> {
     try {
       let categoriasResult = await this.categoriaSrv.get();
-      if (categoriasResult.success) {
+      if (categoriasResult.success)
         this.categorias = <Array<CategoriaModel>>categoriasResult.data;
-      }
 
     } catch (error) {
-      console.log('Problema ao carregar categorias', error)
+      console.log('problema ao carregar as categorias', error);
     }
   }
 
@@ -41,8 +40,8 @@ export class CategoriaPage {
     let action = this.actionSheetCtrl.create({
       title: 'Administração',
       buttons: [
-        { text: 'Gerenciar Categorias', handler: () => this.gerenciarCategorias() },
-        { text: 'Gerenciar Produtos', handler: () => this.gerenciarProdutos() },
+        { text: 'Gerenciar Categorias', handler: () => { this.gerenciarCategoria(); } },
+        { text: 'Gerenciar Produtos', handler: () => { this.gerenciarProduto(); } },
         { text: 'Cancelar', handler: () => { }, role: 'destructive' }
       ]
     });
@@ -54,11 +53,11 @@ export class CategoriaPage {
     this.navCtrl.setRoot('ProdutosPage');
   }
 
-  private gerenciarCategorias(): void {
+  private gerenciarCategoria(): void {
     this.navCtrl.push('AdmCategoriasPage');
   }
 
-  private gerenciarProdutos(): void {
+  private gerenciarProduto(): void {
     this.navCtrl.push('AdmProdutosPage');
   }
 

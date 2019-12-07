@@ -1,12 +1,7 @@
+import { CarrinhoProvider } from './../../providers/carrinho/carrinho';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the MeusPedidosPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { ListaPedidosModel } from '../../app/models/ListaPedidosModel';
 
 @IonicPage()
 @Component({
@@ -15,11 +10,33 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class MeusPedidosPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  lista: Array<ListaPedidosModel> = new Array<ListaPedidosModel>();
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private carrinhoSrv: CarrinhoProvider) {
+
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MeusPedidosPage');
+    this._getPedidos();
+  }
+
+  private async _getPedidos(): Promise<void> {
+    try {
+      let pedidosResult = await this.carrinhoSrv.GetMeusPedidos();
+      console.log(pedidosResult);
+      if (pedidosResult.success) {
+        this.lista = <Array<ListaPedidosModel>>pedidosResult.data;
+      }
+    } catch (error) {
+      console.log('Problema ao carregar os pedidos, motivo: ', error);
+    }
+  }
+
+  public contaItem(item: ListaPedidosModel): number {
+    return ListaPedidosModel.getTotalItens(item.itens);
   }
 
 }
